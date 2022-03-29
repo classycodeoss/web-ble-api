@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+	.btn {
+		@apply text-white p-2 rounded-lg;
+	}
+
+	.btn-primary {
+		@apply bg-orange-600 hover:bg-orange-700;
+	}
+
+	.btn-secondary {
+		@apply bg-rose-400 hover:bg-rose-500;
+	}
+}
