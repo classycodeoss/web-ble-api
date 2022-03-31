@@ -69,9 +69,9 @@
 </script>
 
 <div class="container mx-auto">
-	<h1 class="text-3xl mt-4 mb-2">Web Bluetooth API</h1>
+	<h1 class="text-3xl mt-4 mb-4">Web Bluetooth API</h1>
 
-	<div class="flex flex-row gap-3">
+	<div class="flex flex-row gap-3 mb-2">
 		<button on:click={getAccessibleBluetoothDevices} class="btn btn-secondary">
 			Search Bluetooth Devices
 		</button>

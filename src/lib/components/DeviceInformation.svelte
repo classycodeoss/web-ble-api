@@ -2,7 +2,7 @@
 	export let device: BluetoothDevice;
 </script>
 
-<div class="{device && device.gatt.connected ? 'bg-gray-300' : 'bg-red-400'} w-full rounded-md p-3">
+<div class="{device && device.gatt.connected ? 'bg-gray-300' : 'bg-red-400'} w-full rounded-md p-3 my-4">
 	<h2 class="text-xl mb-2">Device Information</h2>
 	<div class="flex flex-row gap-4 items-center">
 		{#if device && device.gatt.connected}
