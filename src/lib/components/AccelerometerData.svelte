@@ -6,6 +6,7 @@
 	import { Constants } from '$lib/constants/constants';
 	import { UUIDs } from '$lib/constants/ble-uuids';
 	import type { AccelerometerData } from '$lib/models/accelerator-data.model';
+import type { NormalizedData } from '$lib/models/normalized-data.model';
 
 	export let gattServer: BluetoothRemoteGATTServer;
 
@@ -29,15 +30,15 @@
 		const normalizedDataX = normalizeData(data, Axis.x);
 		context.fillStyle = '#003f5c';
 		context.strokeStyle = '#003f5c';
-		CanvasUtil.drawCanvas(normalizedDataX, context);
+		CanvasUtil.drawCanvasNormalized(normalizedDataX.values, context);
 		const normalizedDateY = normalizeData(data, Axis.y);
 		context.fillStyle = '#bc5090';
 		context.strokeStyle = '#bc5090';
-		CanvasUtil.drawCanvas(normalizedDateY, context);
+		CanvasUtil.drawCanvasNormalized(normalizedDateY.values, context);
 		const normalizedDataZ = normalizeData(data, Axis.z);
 		context.fillStyle = '#ffa600';
 		context.strokeStyle = '#ffa600';
-		CanvasUtil.drawCanvas(normalizedDataZ, context);
+		CanvasUtil.drawCanvasNormalized(normalizedDataZ.values, context);
 	}
 
 	async function addListeners(): Promise<void> {
@@ -70,13 +71,13 @@
 		redrawData();
 	}
 
-	function normalizeData(data: AccelerometerData[], axis: Axis): number[] {
+	function normalizeData(data: AccelerometerData[], axis: Axis): NormalizedData {
 		const axisData = data.map((point) => point[axis]);
 		return TransformUtil.normalizeData(axisData, -128, 127);
 	}
 </script>
 
-<div class="my-4">
+<div>
 	<h2 class="text-xl mb-2">Accelerometer Data</h2>
 	<div class="flex flex-row gap-2" bind:this={wrappingDiv} style="height: 564px;" />
 </div>
