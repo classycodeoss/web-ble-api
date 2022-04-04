@@ -68,7 +68,7 @@
 	}
 </script>
 
-<div class="container mx-auto">
+<div class="container mx-auto px-4 sm:px-0">
 	<h1 class="text-3xl mt-4 mb-4">Web Bluetooth API</h1>
 
 	<div class="flex flex-row gap-3 mb-2">

@@ -23,7 +23,7 @@ export class TransformUtil {
     const min = minValue ? minValue : this.getMinimum(data);
     const max = maxValue ? maxValue : this.getMaximum(data);
 		for (let i = 0; i < data.length; i++) {
-			const norm = (data[i] - min) / (max - min);
+			const norm = 1 - ((data[i] - min) / (max - min));
       data[i] = norm;
 		}
 		return data;
