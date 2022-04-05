@@ -4,7 +4,7 @@
 
 @layer components {
 	.btn {
-		@apply text-white p-2 rounded-lg;
+		@apply text-white p-2 rounded-lg disabled:opacity-60 disabled:cursor-not-allowed;
 	}
 
 	.btn-primary {
