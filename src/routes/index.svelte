@@ -3,6 +3,7 @@
   import BluetoothAvailableIndicator from '$lib/components/BluetoothAvailableIndicator.svelte';
   import DeviceInformation from '$lib/components/DeviceInformation.svelte';
   import AccelerometerData from '$lib/components/AccelerometerData.svelte';
+  import { UUIDs } from '$lib/constants/ble-uuids';
 
   let isAvailable: boolean = false;
   let deviceServer: BluetoothRemoteGATTServer;
@@ -29,6 +30,7 @@
       console.log('Requesting Bluetooth Devices');
       const device = await navigator.bluetooth.requestDevice({
         filters: [{ namePrefix: 'TI' }],
+        optionalServices: [UUIDs.AccelerometerServiceUUID]
       });
       deviceServer = await device.gatt.connect();
       connectedDevice = deviceServer.device;

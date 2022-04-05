@@ -26,15 +26,15 @@
 
   function redrawData(): void {
     context.clearRect(0, 0, Constants.CanvasWidth, Constants.CanvasHeight);
-    const normalizedDataX = normalizeData(data, Axis.x);
+    const normalizedDataX = normalizeAxis(data, Axis.x);
     context.fillStyle = '#003f5c';
     context.strokeStyle = '#003f5c';
     CanvasUtil.drawCanvas(normalizedDataX, context);
-    const normalizedDateY = normalizeData(data, Axis.y);
+    const normalizedDateY = normalizeAxis(data, Axis.y);
     context.fillStyle = '#bc5090';
     context.strokeStyle = '#bc5090';
     CanvasUtil.drawCanvas(normalizedDateY, context);
-    const normalizedDataZ = normalizeData(data, Axis.z);
+    const normalizedDataZ = normalizeAxis(data, Axis.z);
     context.fillStyle = '#ffa600';
     context.strokeStyle = '#ffa600';
     CanvasUtil.drawCanvas(normalizedDataZ, context);
@@ -43,10 +43,10 @@
   async function subscribeToAccelerometerCharacteristic(): Promise<void> {
     try {
       const accService = await gattServer.getPrimaryService(UUIDs.AccelerometerServiceUUID);
-      const accConfigCharacteristisc = await accService.getCharacteristic(
+      const accConfigCharacteristic = await accService.getCharacteristic(
         UUIDs.AccelerometerConfigUUID
       );
-      await accConfigCharacteristisc.writeValue(new Uint8Array([1]));
+      await accConfigCharacteristic.writeValue(new Uint8Array([1]));
       const accPeriodCharacteristic = await accService.getCharacteristic(
         UUIDs.AccelerometerPeriodUUID
       );
@@ -61,20 +61,20 @@
   }
 
   function getAccelerometerValues(data) {
-    const ax = data.getInt8(0, true);
-    const ay = data.getInt8(1, true);
-    const az = data.getInt8(2, true);
+    const ax = data.getInt8(0);
+    const ay = data.getInt8(1);
+    const az = data.getInt8(2);
     return { x: ax, y: ay, z: az };
   }
 
   function onAccelerometerChanged(event) {
     const characteristic = event.target;
     const values = getAccelerometerValues(characteristic.value);
-    data = data.slice(-9).concat(values);
+    data = data.slice(-19).concat(values);
     redrawData();
   }
 
-  function normalizeData(data: AccelerometerData[], axis: Axis): number[] {
+  function normalizeAxis(data: AccelerometerData[], axis: Axis): number[] {
     const axisData = data.map((point) => point[axis]);
     return TransformUtil.normalizeData(axisData, -128, 127);
   }
