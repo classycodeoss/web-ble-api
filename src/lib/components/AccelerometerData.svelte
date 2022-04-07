@@ -6,6 +6,7 @@
   import { Constants } from '$lib/constants/constants';
   import { UUIDs } from '$lib/constants/ble-uuids';
   import type { AccelerometerData } from '$lib/models/accelerator-data.model';
+  import type { NormalizedData } from '$lib/models/normalized-data.model';
 
   export let gattServer: BluetoothRemoteGATTServer;
 
@@ -74,7 +75,7 @@
     redrawData();
   }
 
-  function normalizeAxis(data: AccelerometerData[], axis: Axis): number[] {
+  function normalizeAxis(data: AccelerometerData[], axis: Axis): NormalizedData {
     const axisData = data.map((point) => point[axis]);
     return TransformUtil.normalizeData(axisData, -128, 127);
   }
