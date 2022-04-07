@@ -13,7 +13,7 @@
     <span class="material-icons"> error </span>
     <span>Bluetooth is not available</span><br />
   </div>
-  <span class="ml-8">
+  <p class="ml-8">
     Check out this
     <a
       class="text-blue-200 underline"
@@ -21,6 +21,6 @@
       href="https://chromestatus.com/feature/5264933985976320">guide</a
     >
     , to enable bluetooth (only available for Chrome, Edge or Opera)
-  </span>
+  </p>
 </div>
 {/if}
