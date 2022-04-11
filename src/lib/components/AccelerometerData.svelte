@@ -81,7 +81,7 @@
   }
 </script>
 
-<div class="my-4">
+<div class="my-4 flex-2">
   <h2 class="text-xl mb-2">Accelerometer Data</h2>
   <div class="flex flex-row gap-2" bind:this={wrappingDiv} style="height: 564px;" />
 </div>

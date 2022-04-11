@@ -4,6 +4,7 @@
   import DeviceInformation from '$lib/components/DeviceInformation.svelte';
   import AccelerometerData from '$lib/components/AccelerometerData.svelte';
   import { UUIDs } from '$lib/constants/ble-uuids';
+  import TemperatureSensor from '$lib/components/TemperatureSensor.svelte';
 
   let isAvailable: boolean = false;
   let deviceServer: BluetoothRemoteGATTServer;
@@ -30,7 +31,11 @@
       console.log('Requesting Bluetooth Devices');
       const device = await navigator.bluetooth.requestDevice({
         filters: [{ namePrefix: 'TI' }],
-        optionalServices: [UUIDs.AccelerometerServiceUUID]
+        optionalServices: [
+          UUIDs.AccelerometerServiceUUID,
+          UUIDs.TemperatureServiceUUID,
+          UUIDs.SimpleKeyServiceUUID
+        ]
       });
       deviceServer = await device.gatt.connect();
       connectedDevice = deviceServer.device;
@@ -56,6 +61,9 @@
   {/if}
 
   {#if deviceServer}
-    <AccelerometerData gattServer={deviceServer} />
+    <div class="flex flex-row gap-4">
+      <AccelerometerData gattServer={deviceServer} />
+      <TemperatureSensor gattServer={deviceServer} />
+    </div>
   {/if}
 </div>
