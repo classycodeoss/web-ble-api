@@ -19,6 +19,7 @@
 
   async function addListeners(): Promise<void> {
     try {
+      // Configure and activate the temperature service
       const tempService = await gattServer.getPrimaryService(UUIDs.TemperatureServiceUUID);
       const tempConfigCharacteristisc = await tempService.getCharacteristic(
         UUIDs.TemperatureConfigUUID
@@ -26,6 +27,7 @@
       await tempConfigCharacteristisc.writeValue(new Uint8Array([1]));
       tempDataCharacteristic = await tempService.getCharacteristic(UUIDs.TemperatureDataUUID);
 
+      // Configure the simple key service and register a callback if a button changes
       const simpleKeyService = await gattServer.getPrimaryService(UUIDs.SimpleKeyServiceUUID);
       const characteristic = await simpleKeyService.getCharacteristic(
         UUIDs.SimpleKeyCharacteristicUUID
@@ -40,12 +42,15 @@
   async function onKeyEvent(event: any): Promise<void> {
     const value = event.target.value.getInt8(0);
     switchValue = value;
+    // Check if the left button is pressed (ignore right one)
     if (switchValue === SwitchState.ON_OFF || switchValue === SwitchState.ON_ON) {
       if (!timer) {
+        // Read temperature values every 300ms, as long as button's pressed
         timer = setInterval(async () => {
           switchValue =
             switchValue === SwitchState.ON_OFF ? SwitchState.TOGGLE : SwitchState.ON_OFF;
           const tempEvent = await tempDataCharacteristic.readValue();
+          // Convert and save the temperature values
           temperature = getTemperatureValues(tempEvent);
         }, 300);
       }
@@ -90,7 +95,6 @@
     class="bg-gray-200 rounded-lg flex flex-col justify-center items-center relative"
     style="height: 564px;"
   >
-    <!-- <span class="absolute top-4 right-12">State:</span> -->
     <div
       class="absolute top-6 right-6 rounded-full h-6 w-6 bg-red-500"
       class:bg-green-500={switchValue === SwitchState.ON_OFF}
